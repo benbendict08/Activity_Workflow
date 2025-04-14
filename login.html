@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Minecraft Login</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    body {
+      background: url('https://wallpapercave.com/wp/wp2561594.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Press Start 2P', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-box {
+      background-color: rgba(34, 34, 34, 0.9);
+      border: 4px solid #00aa00;
+      padding: 30px; 
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 0 10px #000;
+      text-align: center;
+    }
+
+    .login-box h2 {
+      color: #00ff00;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .login-box input[type="text"],
+    .login-box input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      background: #222;
+      border: 2px solid #00aa00;
+      color: #00ff00;
+      font-size: 12px;
+      font-family: 'Press Start 2P', cursive;
+      border-radius: 4px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background-color: #00aa00;
+      border: none;
+      color: #fff;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: 0.3s;
+    }
+
+    .login-box button:hover {
+      background-color: #00cc00;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Minecraft Login</h2>
+    <form>
+      <input type="text" placeholder="Username" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit">Log In</button>
+    </form>
+  </div>
+</body>
+</html>
