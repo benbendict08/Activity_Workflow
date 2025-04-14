@@ -14,7 +14,7 @@
   header.site-header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     position: relative;
     height: 110px;
     padding: 0 20px;
@@ -119,6 +119,19 @@
     width: 110px;
     color: #ffffff;
     background-color: #5caa3e;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    
+  }
+
+  .logout-button {
+   
+    right: 20px;
+    height: 40px;
+    width: 110px;
+    color: #ffffff;
+    background-color: #ff0000;
     font-family: 'Trebuchet MS', sans-serif;
     font-size: 15px;
     cursor: pointer;
