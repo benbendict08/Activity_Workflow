@@ -24,97 +24,153 @@
       margin-bottom: 10px;
       display: block;
     }
+    #cartPopup {
+      position: fixed;
+      top: 60px;
+      right: 30px;
+      background-color: white;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 15px;
+      width: 300px;
+      z-index: 999;
+      display: none;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    #cartBtn {
+      position: fixed;
+      top: 15px;
+      right: 30px;
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
-  <h1>BekBek's Unli Subo</h1>
-
-  <div id="loginDiv">
-    <h2>Login</h2>
-    <input type="text" id="username" placeholder="Enter your username"><br><br>
-    <input type="password" id="password" placeholder="Enter your password"><br><br>
-    <button onclick="login()">Login</button>
+ 
+<h1>BekBek's Unli Subo</h1>
+ 
+<div id="loginDiv">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Enter your username"><br><br>
+  <input type="password" id="password" placeholder="Enter your password"><br><br>
+  <button onclick="login()">Login</button>
+</div>
+ 
+<!-- Cart Button -->
+<button id="cartBtn" class="hidden" onclick="toggleCartPopup()">Cart</button>
+ 
+<!-- Cart Popup -->
+<div id="cartPopup"></div>
+ 
+<div id="shopDiv" class="hidden">
+  <h2>Hello, <span id="userDisplay"></span>! Choose your BBQ:</h2>
+ 
+  <div class="product">
+    <img src="Oven Roasted BBQ Ribs.jpg" alt="Ribs">
+    <p><strong>Ribs</strong> - ₱250</p>
+    <button onclick="addToCart('Ribs', 250)">Add to Cart</button>
   </div>
-
-  <div id="shopDiv" class="hidden">
-    <h2>Hello, <span id="userDisplay"></span>! Choose your BBQ:</h2>
-
-    <div class="product">
-      <img src="Oven Roasted BBQ Ribs.jpg" alt="Ribs">
-      <p><strong>Ribs</strong> - ₱250</p>
-      <button onclick="addToCart('Ribs', 250)">Add to Cart</button>
-      <button onclick="removeProductFromCart('Ribs')">Remove</button>
-    </div>
-
-    <div class="product">
-      <img src="download.jpg" alt="Brisket">
-      <p><strong>Brisket</strong> - ₱300</p>
-      <button onclick="addToCart('Brisket', 300)">Add to Cart</button>
-      <button onclick="removeProductFromCart('Brisket')">Remove</button>
-    </div>
-
-    <div class="product">
-      <img src="How to Cook Italian Sausage Links_ Fried Sausage Recipe.jpg" alt="Sausage">
-      <p><strong>Sausage</strong> - ₱150</p>
-      <button onclick="addToCart('Sausage', 150)">Add to Cart</button>
-      <button onclick="removeProductFromCart('Sausage')">Remove</button>
-    </div>
-
-    <h3>Your Cart:</h3>
-    <div id="cart" class="cart">No items yet.</div>
+ 
+  <div class="product">
+    <img src="download.jpg" alt="Brisket">
+    <p><strong>Brisket</strong> - ₱300</p>
+    <button onclick="addToCart('Brisket', 300)">Add to Cart</button>
   </div>
-
-  <script>
-    let cart = [];
-
-    function login() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-
-      if (username && password) {
-        document.getElementById('loginDiv').classList.add('hidden');
-        document.getElementById('shopDiv').classList.remove('hidden');
-        document.getElementById('userDisplay').textContent = username;
+ 
+  <div class="product">
+    <img src="How to Cook Italian Sausage Links_ Fried Sausage Recipe.jpg" alt="Sausage">
+    <p><strong>Sausage</strong> - ₱150</p>
+    <button onclick="addToCart('Sausage', 150)">Add to Cart</button>
+  </div>
+</div>
+ 
+<script>
+  let cart = [];
+ 
+  function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+ 
+    if (username && password) {
+      document.getElementById('loginDiv').classList.add('hidden');
+      document.getElementById('shopDiv').classList.remove('hidden');
+      document.getElementById('cartBtn').classList.remove('hidden');
+      document.getElementById('userDisplay').textContent = username;
+    } else {
+      alert('Please enter both username and password!');
+    }
+  }
+ 
+  function addToCart(item, price) {
+    const existing = cart.find(p => p.item === item);
+    if (existing) {
+      existing.qty += 1;
+    } else {
+      cart.push({ item, price, qty: 1 });
+    }
+    updateCartPopup();
+  }
+ 
+  function removeFromCart(item) {
+    const index = cart.findIndex(p => p.item === item);
+    if (index !== -1) {
+      cart.splice(index, 1);
+      updateCartPopup();
+    }
+  }
+ 
+  function changeQty(item, change) {
+    const product = cart.find(p => p.item === item);
+    if (product) {
+      product.qty += change;
+      if (product.qty <= 0) {
+        removeFromCart(item);
       } else {
-        alert('Please enter both username and password!');
+        updateCartPopup();
       }
     }
-
-    function addToCart(item, price) {
-      cart.push({ item, price });
-      updateCart();
+  }
+ 
+  function toggleCartPopup() {
+    const popup = document.getElementById('cartPopup');
+popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+    updateCartPopup();
+  }
+ 
+  function updateCartPopup() {
+    const popup = document.getElementById('cartPopup');
+    if (cart.length === 0) {
+      popup.innerHTML = '<p>Your cart is empty.</p>';
+      return;
     }
-
-    function removeProductFromCart(itemName) {
-      const index = cart.findIndex(product => product.item === itemName);
-      if (index !== -1) {
-        cart.splice(index, 1);
-        updateCart();
-      }
-    }
-
-    function updateCart() {
-      const cartDiv = document.getElementById('cart');
-      if (cart.length === 0) {
-        cartDiv.textContent = 'No items yet.';
-        return;
-      }
-
-      let total = 0;
-      cartDiv.innerHTML = '';
-
-      cart.forEach(product => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'cart-item';
-        itemDiv.textContent = `${product.item} - ₱${product.price}`;
-        cartDiv.appendChild(itemDiv);
-        total += product.price;
-      });
-
-      const totalDiv = document.createElement('div');
-      totalDiv.innerHTML = `<hr><strong>Total: ₱${total}</strong>`;
-      cartDiv.appendChild(totalDiv);
-    }
-  </script>
+ 
+    let total = 0;
+    let html = '<h3>Your Cart</h3>';
+ 
+    cart.forEach(product => {
+      const itemTotal = product.price * product.qty;
+      total += itemTotal;
+      html += `
+        <div class="cart-item">
+          ${product.item} - ₱${product.price} x ${product.qty} = ₱${itemTotal}
+          <br>
+          <button onclick="changeQty('${product.item}', 1)">+</button>
+          <button onclick="changeQty('${product.item}', -1)">-</button>
+          <button onclick="removeFromCart('${product.item}')">Remove</button>
+        </div>
+      `;
+    });
+ 
+    html += `<hr><strong>Total: ₱${total}</strong>`;
+    popup.innerHTML = html;
+  }
+</script>
+ 
 </body>
 </html>
