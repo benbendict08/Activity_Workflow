@@ -4,41 +4,55 @@
   <meta charset="UTF-8">
   <title>BekBek's Unli Subo</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .hidden {
+      display: none;
+    }
+    .product, .cart {
+      margin: 10px 0;
+    }
+    .cart-item {
+      margin-bottom: 5px;
+    }
+    button {
+      margin-left: 10px;
+    }
+  </style>
 </head>
 <body>
   <h1>BekBek's Unli Subo</h1>
- 
+
   <div id="loginDiv">
     <h2>Login</h2>
     <input type="text" id="username" placeholder="Enter your username">
     <button onclick="login()">Login</button>
   </div>
- 
+
   <div id="shopDiv" class="hidden">
     <h2>Hello, <span id="userDisplay"></span>! Choose your BBQ:</h2>
- 
+
     <div class="product">
       <p><strong>Ribs</strong> - ₱250</p>
       <button onclick="addToCart('Ribs', 250)">Add to Cart</button>
     </div>
- 
+
     <div class="product">
       <p><strong>Brisket</strong> - ₱300</p>
       <button onclick="addToCart('Brisket', 300)">Add to Cart</button>
     </div>
- 
+
     <div class="product">
       <p><strong>Sausage</strong> - ₱150</p>
       <button onclick="addToCart('Sausage', 150)">Add to Cart</button>
     </div>
- 
+
     <h3>Your Cart:</h3>
     <div id="cart" class="cart">No items yet.</div>
   </div>
- 
+
   <script>
     let cart = [];
- 
+
     function login() {
       const username = document.getElementById('username').value;
       if (username) {
@@ -49,28 +63,41 @@
         alert('Please enter a username!');
       }
     }
- 
+
     function addToCart(item, price) {
       cart.push({ item, price });
       updateCart();
     }
- 
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
     function updateCart() {
+      const cartDiv = document.getElementById('cart');
       if (cart.length === 0) {
-        document.getElementById('cart').textContent = 'No items yet.';
+        cartDiv.textContent = 'No items yet.';
         return;
       }
- 
-      let cartHTML = '';
+
       let total = 0;
- 
-      cart.forEach(product => {
-        cartHTML += `${product.item} - ₱${product.price}<br>`;
+      cartDiv.innerHTML = '';
+
+      cart.forEach((product, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item';
+        itemDiv.innerHTML = `
+          ${product.item} - ₱${product.price}
+          <button onclick="removeFromCart(${index})">Remove</button>
+        `;
+        cartDiv.appendChild(itemDiv);
         total += product.price;
       });
- 
-      cartHTML += `<hr>Total: ₱${total}`;
-      document.getElementById('cart').innerHTML = cartHTML;
+
+      const totalDiv = document.createElement('div');
+      totalDiv.innerHTML = `<hr><strong>Total: ₱${total}</strong>`;
+      cartDiv.appendChild(totalDiv);
     }
   </script>
 </body>
