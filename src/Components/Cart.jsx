@@ -5,12 +5,14 @@ function Cart({ cartItems, onRemoveFromCart }) {
     <div className="cart">
       <h2>Your Cart</h2>
       {cartItems.length === 0 ? (
-        <p>Your cart is empty</p>
+        <p>Your cart is empty.</p>
       ) : (
         <ul>
           {cartItems.map((item) => (
-            <li key={item.id}>
-              {item.name} - ${item.price}
+            <li key={item.id} className="cart-item">
+              <span>
+                {item.name} - ${item.price}
+              </span>
               <button onClick={() => onRemoveFromCart(item.id)}>Remove</button>
             </li>
           ))}

@@ -4,9 +4,12 @@ import ProductItem from './ProductItem';
 function ProductList({ products, onAddToCart }) {
   return (
     <div className="product-list">
-      {products.map((product) => (
-        <ProductItem key={product.id} product={product} onAddToCart={onAddToCart} />
-      ))}
+      <h2>Products</h2>
+      <div className="product-grid">
+        {products.map((product) => (
+          <ProductItem key={product.id} product={product} onAddToCart={onAddToCart} />
+        ))}
+      </div>
     </div>
   );
 }
