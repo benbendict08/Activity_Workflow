@@ -80,3 +80,15 @@ body {
     color: #d43126;
     font-weight: bold;
   }
+
+  #logoutBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    background-color: #ccc;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }

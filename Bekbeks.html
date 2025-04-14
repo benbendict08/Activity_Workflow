@@ -8,15 +8,19 @@
     .hidden {
       display: none;
     }
+ 
     .product, .cart {
       margin: 20px 0;
     }
+ 
     .cart-item {
       margin-bottom: 5px;
     }
+ 
     button {
       margin-left: 5px;
     }
+ 
     .product img {
       width: 200px;
       height: auto;
@@ -24,6 +28,7 @@
       margin-bottom: 10px;
       display: block;
     }
+ 
     #cartPopup {
       position: fixed;
       top: 60px;
@@ -37,6 +42,7 @@
       display: none;
       box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
+ 
     #cartBtn {
       position: fixed;
       top: 15px;
@@ -48,6 +54,20 @@
       border-radius: 8px;
       cursor: pointer;
       z-index: 1000;
+    }
+ 
+    #logoutBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 30px;
+      background-color: #ccc;
+      color: #000;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
   </style>
 </head>
@@ -65,27 +85,30 @@
 <!-- Cart Button -->
 <button id="cartBtn" class="hidden" onclick="toggleCartPopup()">Cart</button>
  
+<!-- Logout Button -->
+<button id="logoutBtn" class="hidden" onclick="logout()">Logout</button>
+ 
 <!-- Cart Popup -->
 <div id="cartPopup"></div>
  
 <div id="shopDiv" class="hidden">
-  <h2>Hello, <span id="userDisplay"></span>! Choose your BBQ:</h2>
+  <h2>Hello, <span id="userDisplay"></span>! Choose your BekBek's BBQ:</h2>
  
   <div class="product">
     <img src="Oven Roasted BBQ Ribs.jpg" alt="Ribs">
-    <p><strong>Ribs</strong> - ₱250</p>
+    <p><strong>Bekbek's Ribs</strong> - ₱250</p>
     <button onclick="addToCart('Bekbeks Ribs', 250)">Add to Cart</button>
   </div>
  
   <div class="product">
     <img src="download.jpg" alt="Brisket">
-    <p><strong>Brisket</strong> - ₱300</p>
+    <p><strong>Bekbek's Steak</strong> - ₱300</p>
     <button onclick="addToCart('Bekbeks Steak', 300)">Add to Cart</button>
   </div>
  
   <div class="product">
     <img src="How to Cook Italian Sausage Links_ Fried Sausage Recipe.jpg" alt="Sausage">
-    <p><strong>Sausage</strong> - ₱150</p>
+    <p><strong>BekBek's Sausage</strong> - ₱150</p>
     <button onclick="addToCart('BekBeks Sausage', 150)">Add to Cart</button>
   </div>
 </div>
@@ -101,10 +124,23 @@
       document.getElementById('loginDiv').classList.add('hidden');
       document.getElementById('shopDiv').classList.remove('hidden');
       document.getElementById('cartBtn').classList.remove('hidden');
+      document.getElementById('logoutBtn').classList.remove('hidden');
       document.getElementById('userDisplay').textContent = username;
     } else {
       alert('Please enter both username and password!');
     }
+  }
+ 
+  function logout() {
+    document.getElementById('loginDiv').classList.remove('hidden');
+    document.getElementById('shopDiv').classList.add('hidden');
+    document.getElementById('cartBtn').classList.add('hidden');
+    document.getElementById('logoutBtn').classList.add('hidden');
+    document.getElementById('cartPopup').style.display = 'none';
+    cart = [];
+    updateCartPopup();
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
   }
  
   function addToCart(item, price) {
