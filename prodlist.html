@@ -1,13 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Minecraft Product List</title>
   <link rel="stylesheet" href="prodlist.css" />
+  <link rel="stylesheet" href="modal.css" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <header class="site-header">
         <img class="mine_logo" src="images/mine_logo.png" alt="Diamond Pickaxe">
@@ -24,28 +26,116 @@
   
   
   <main class="product-grid">
-    <!-- Repeat this block for 16 products -->
+    <!-- Example Product Card -->
     <div class="product-card">
       <img src="https://i.imgur.com/LKOmN4x.png" alt="Diamond Pickaxe">
       <h2>Diamond Pickaxe</h2>
       <p>₱500</p>
+      <button class="btn" onclick="addToCart('Diamond Pickaxe', 500)">Add to Cart</button>
     </div>
+
     <div class="product-card">
       <img src="https://i.imgur.com/DV1sDbA.png" alt="Creeper Plush">
       <h2>Creeper Plush</h2>
       <p>₱300</p>
+      <button class="btn" onclick="addToCart('Creeper Plush', 300)">Add to Cart</button>
     </div>
+
     <div class="product-card">
       <img src="https://i.imgur.com/OAd4MfF.png" alt="Minecraft T-Shirt">
       <h2>Minecraft T-Shirt</h2>
       <p>₱450</p>
+      <button class="btn" onclick="addToCart('Minecraft T-Shirt', 450)">Add to Cart</button>
     </div>
+
     <div class="product-card">
       <img src="https://i.imgur.com/8HG8skD.png" alt="Redstone Torch">
       <h2>Redstone Torch</h2>
       <p>₱250</p>
+      <button class="btn" onclick="addToCart('Redstone Torch', 250)">Add to Cart</button>
     </div>
-    <!-- Add 12 more product cards similarly -->
   </main>
+
+  <!-- Cart Modal -->
+  <div class="modal-background" id="cartModal">
+    <div class="modal-content">
+      <h2>Your Cart</h2>
+      <ul id="cartItems"></ul>
+      <p id="totalPrice">Total: ₱0</p>
+      <button class="btn purchase-btn" onclick="purchaseItems()">Purchase</button>
+      <button class="btn" onclick="clearCart()">Clear Cart</button>
+      <button class="btn close-btn" onclick="closeCart()">Close</button>
+    </div>
+  </div>
+
+
+
+  <script>
+    const cart = [];
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      alert(`${name} added to cart!`);
+    }
+
+    function openCart() {
+      const modal = document.getElementById('cartModal');
+      const cartList = document.getElementById('cartItems');
+      const totalDisplay = document.getElementById('totalPrice');
+
+      cartList.innerHTML = '';
+      let total = 0;
+
+      if (cart.length === 0) {
+        cartList.innerHTML = '<li>Your cart is empty.</li>';
+      } else {
+        cart.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = `${item.name} - ₱${item.price}`;
+          cartList.appendChild(li);
+          total += item.price;
+        });
+      }
+
+      totalDisplay.textContent = `Total: ₱${total}`;
+      modal.style.display = 'block';
+    }
+
+    function closeCart() {
+      document.getElementById('cartModal').style.display = 'none';
+    }
+
+    function purchaseItems() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      alert("Thank you for your purchase!");
+      cart.length = 0;
+      closeCart();
+    }
+
+    function clearCart() {
+      if (cart.length === 0) {
+        alert("Cart is already empty.");
+        return;
+      }
+
+      if (confirm("Are you sure you want to clear the cart?")) {
+        cart.length = 0;
+        openCart(); 
+      }
+    }
+
+    window.onclick = function (event) {
+      const modal = document.getElementById('cartModal');
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
+
 </body>
+
 </html>
