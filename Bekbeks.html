@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple eCommerce</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    .product {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .cart {
+      background-color: #f9f9f9;
+      padding: 10px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Simple eCommerce</h1>
+
+  <!-- Login Form -->
+  <div id="loginDiv">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username"/>
+    <input type="password" id="password" placeholder="Password"/>
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- Product List -->
+  <div id="shopDiv" class="hidden">
+    <h2>Welcome, <span id="userDisplay"></span></h2>
+    <h3>Products</h3>
+    <div id="productList"></div>
+
+    <h3>Cart</h3>
+    <div class="cart" id="cartList">Your cart is empty.</div>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    // Dummy products
+    const products = [
+      { id: 1, name: "T-shirt", price: 20 },
+      { id: 2, name: "Jeans", price: 40 },
+      { id: 3, name: "Shoes", price: 60 }
+    ];
+
+    // Dummy login
+    const dummyUser = { username: "user", password: "1234" };
+
+    let cart = [];
+
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === dummyUser.username && pass === dummyUser.password) {
+        document.getElementById("loginDiv").classList.add("hidden");
+        document.getElementById("shopDiv").classList.remove("hidden");
+        document.getElementById("userDisplay").innerText = user;
+        showProducts();
+      } else {
+        alert("Invalid credentials. Try user: 'user', pass: '1234'");
+      }
+    }
+
+    function logout() {
+      cart = [];
+      document.getElementById("loginDiv").classList.remove("hidden");
+      document.getElementById("shopDiv").classList.add("hidden");
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+      updateCart();
+    }
+
+    function showProducts() {
+      const container = document.getElementById("productList");
+      container.innerHTML = "";
+      products.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = `
+          <strong>${p.name}</strong> - $${p.price}
+          <button onclick="addToCart(${p.id})">Add to Cart</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        cart.push(product);
+        updateCart();
+      }
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function updateCart() {
+      const container = document.getElementById("cartList");
+      if (cart.length === 0) {
+        container.innerHTML = "Your cart is empty.";
+        return;
+      }
+      container.innerHTML = "";
+      cart.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.innerHTML = `${item.name} - $${item.price}
+          <button onclick="removeFromCart(${index})">Remove</button>`;
+        container.appendChild(div);
+      });
+    }
+  </script>
+
+</body>
+</html>
