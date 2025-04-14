@@ -81,8 +81,35 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 575px; /* or whatever height you want */
+    height: 585px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
+  .check {
+    height: 40px;
+    width: 110px;
+    color: #ffffff;
+    background-color: #5caa3e;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+
+  .head{
+    font-family: 'Press Start 2P', cursive;
+    font-size: 40px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+  }
+
+  .feet{
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 22px;
+    margin-bottom: 5px;
+    margin-left: 20px;
   }
 
   .cart-button {
@@ -95,6 +122,7 @@
     font-family: 'Trebuchet MS', sans-serif;
     font-size: 15px;
     cursor: pointer;
+    
   }
   
   
