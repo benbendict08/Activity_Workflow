@@ -9,13 +9,20 @@
       display: none;
     }
     .product, .cart {
-      margin: 10px 0;
+      margin: 20px 0;
     }
     .cart-item {
       margin-bottom: 5px;
     }
     button {
-      margin-left: 10px;
+      margin-left: 5px;
+    }
+    .product img {
+      width: 200px;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: block;
     }
   </style>
 </head>
@@ -24,7 +31,8 @@
 
   <div id="loginDiv">
     <h2>Login</h2>
-    <input type="text" id="username" placeholder="Enter your username">
+    <input type="text" id="username" placeholder="Enter your username"><br><br>
+    <input type="password" id="password" placeholder="Enter your password"><br><br>
     <button onclick="login()">Login</button>
   </div>
 
@@ -32,18 +40,24 @@
     <h2>Hello, <span id="userDisplay"></span>! Choose your BBQ:</h2>
 
     <div class="product">
+      <img src="Oven Roasted BBQ Ribs.jpg" alt="Ribs">
       <p><strong>Ribs</strong> - ₱250</p>
       <button onclick="addToCart('Ribs', 250)">Add to Cart</button>
+      <button onclick="removeProductFromCart('Ribs')">Remove</button>
     </div>
 
     <div class="product">
+      <img src="download.jpg" alt="Brisket">
       <p><strong>Brisket</strong> - ₱300</p>
       <button onclick="addToCart('Brisket', 300)">Add to Cart</button>
+      <button onclick="removeProductFromCart('Brisket')">Remove</button>
     </div>
 
     <div class="product">
+      <img src="How to Cook Italian Sausage Links_ Fried Sausage Recipe.jpg" alt="Sausage">
       <p><strong>Sausage</strong> - ₱150</p>
       <button onclick="addToCart('Sausage', 150)">Add to Cart</button>
+      <button onclick="removeProductFromCart('Sausage')">Remove</button>
     </div>
 
     <h3>Your Cart:</h3>
@@ -55,12 +69,14 @@
 
     function login() {
       const username = document.getElementById('username').value;
-      if (username) {
+      const password = document.getElementById('password').value;
+
+      if (username && password) {
         document.getElementById('loginDiv').classList.add('hidden');
         document.getElementById('shopDiv').classList.remove('hidden');
         document.getElementById('userDisplay').textContent = username;
       } else {
-        alert('Please enter a username!');
+        alert('Please enter both username and password!');
       }
     }
 
@@ -69,9 +85,12 @@
       updateCart();
     }
 
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      updateCart();
+    function removeProductFromCart(itemName) {
+      const index = cart.findIndex(product => product.item === itemName);
+      if (index !== -1) {
+        cart.splice(index, 1);
+        updateCart();
+      }
     }
 
     function updateCart() {
@@ -84,13 +103,10 @@
       let total = 0;
       cartDiv.innerHTML = '';
 
-      cart.forEach((product, index) => {
+      cart.forEach(product => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'cart-item';
-        itemDiv.innerHTML = `
-          ${product.item} - ₱${product.price}
-          <button onclick="removeFromCart(${index})">Remove</button>
-        `;
+        itemDiv.textContent = `${product.item} - ₱${product.price}`;
         cartDiv.appendChild(itemDiv);
         total += product.price;
       });
