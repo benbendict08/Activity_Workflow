@@ -1,41 +1,63 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Minecraft Product List</title>
-  <link rel="stylesheet" href="prod.css" />
+  <link rel="stylesheet" href="prodlist.css" />
+  <link rel="stylesheet" href="modal.css" />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 </head>
 <body>
+
   <header>
-    <h1>Minecraft Store</h1>
+    <h1 style="text-align: center; padding: 20px;">Minecraft Store</h1>
   </header>
   
+  <!-- Hidden Checkbox to Toggle Modal -->
+  <input type="checkbox" id="modalToggle" style="display: none;" />
+
+  <!-- Modal -->
+  <div class="modal-background">
+    <div class="modal-content">
+      <h2>Item Added to Cart!</h2>
+      <p>Your item has been added.</p>
+      <label for="modalToggle" class="btn close-btn">Close</label>
+    </div>
+  </div>
+
   <main class="product-grid">
-    <!-- Repeat this block for 16 products -->
+    <!-- Product Card -->
     <div class="product-card">
       <img src="https://i.imgur.com/LKOmN4x.png" alt="Diamond Pickaxe">
       <h2>Diamond Pickaxe</h2>
       <p>₱500</p>
+      <label for="modalToggle" class="btn">Add to Cart</label>
     </div>
+
     <div class="product-card">
       <img src="https://i.imgur.com/DV1sDbA.png" alt="Creeper Plush">
       <h2>Creeper Plush</h2>
       <p>₱300</p>
+      <label for="modalToggle" class="btn">Add to Cart</label>
     </div>
+
     <div class="product-card">
       <img src="https://i.imgur.com/OAd4MfF.png" alt="Minecraft T-Shirt">
       <h2>Minecraft T-Shirt</h2>
       <p>₱450</p>
+      <label for="modalToggle" class="btn">Add to Cart</label>
     </div>
+
     <div class="product-card">
       <img src="https://i.imgur.com/8HG8skD.png" alt="Redstone Torch">
       <h2>Redstone Torch</h2>
       <p>₱250</p>
+      <label for="modalToggle" class="btn">Add to Cart</label>
     </div>
-    <!-- Add 12 more product cards similarly -->
+
+    <!-- Add more products the same way -->
   </main>
 </body>
 </html>
